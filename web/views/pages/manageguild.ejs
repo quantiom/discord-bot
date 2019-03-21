@@ -178,7 +178,7 @@
             				<option value="ignore">Select Channel</option>
                     <% guild.channels.forEach(function(channel) { %>
                       <% if (channel.type === 'text') { %>
-                      <option value="<%= channel.id %>" <% if (!client.channels.get(channel.id).permissionsFor(guild.me).has(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS"])) { %> disabled <% } %> <% if (channel.id == announcements.announceChannel) { %> selected="selected" <% } %>>#<%= channel.name %></option>
+                      <option value="<%= channel.id %>" <% if (!client.channels.get(channel.id).permissionsFor(guild.me).has(["SEND_MESSAGES"])) { %> disabled <% } %> <% if (channel.id == announcements.announceChannel) { %> selected="selected" <% } %>>#<%= channel.name %></option>
                       <% } %>
                     <% }) %>
             			</select>
@@ -208,6 +208,7 @@
                     <p>
                     <code>{@user}</code> Tags the user.<br>
                     <code>{username}</code> The username of the user.<br>
+                    <code>{#channel}</code> Tags the channel.<br>
                     <code>{server}</code> The server name.<br>
                     </p>
                   </div>
@@ -228,7 +229,7 @@
           </p>
         </div><br/><br/>
         <a href="/" class="btn btn btn-secondary">Back</a> <a href="/commands" class="btn btn btn-secondary">Commands</a>
-        <%- include ../inc/footer.ejs %>
+        <% include ../inc/footer.ejs %>
 
       </div>
 

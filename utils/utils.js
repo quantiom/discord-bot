@@ -2,6 +2,7 @@ const { readdirSync, statSync } = require('fs')
 const { join } = require('path')
 const { RichEmbed } = require('discord.js');
 const colors = require('colors');
+const sqlite = require('sqlite');
 
 class Utils
 {
@@ -9,6 +10,9 @@ class Utils
     {
         this.client = client;
         this.red = 0xd83232;
+        sqlite.open('./data/database.sqlite').then(db => {
+            this.db = db;
+        });
     }
 
     static readDir(dir, files_or_dir = "dir") {

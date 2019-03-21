@@ -105,7 +105,7 @@ module.exports = async (app, client) => {
             if (req.body.setting.includes("Enabled") && !( req.body.value.toString() === "true" || req.body.value.toString() === "false"))
             return error("Invalid bool.", res);
       
-            if (req.body.value.length > 1999)
+            if (req.body.value.length > 1500)
             return error("Value is too long.", res);
       
             let returnVal = 0;
