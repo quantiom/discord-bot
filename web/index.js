@@ -20,7 +20,7 @@ module.exports.start = async (app, client) => {
     }));
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
-    app.use(morgan('dev'));
+    // app.use(morgan('dev')); - uncomment if you want to see all requests
     app.use(express.static(__dirname + '/views/public'));
     app.listen(3000);
 

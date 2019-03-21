@@ -229,7 +229,7 @@
                                 <option value="ignore">Select Channel</option>
                         <% guild.channels.forEach(function(channel) { %>
                         <% if (channel.type === 'text') { %>
-                        <option value="<%= channel.id %>" <% if (!req.app.get('client').channels.get(channel.id).permissionsFor(guild.me).has(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS"])) { %> disabled <% } %> <% if (channel.id == logging.logChannel) { %> selected="selected" <% } %>>#<%= channel.name %></option>
+                        <option value="<%= channel.id %>" <% if (!client.channels.get(channel.id).permissionsFor(guild.me).has(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS"])) { %> disabled <% } %> <% if (channel.id == logging.logChannel) { %> selected="selected" <% } %>>#<%= channel.name %></option>
                         <% } %>
                         <% }) %>
                             </select>

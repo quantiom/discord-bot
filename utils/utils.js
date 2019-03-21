@@ -44,6 +44,21 @@ class Utils
         console.log(timestamp + msg.white)
     };
 
+    async logCheck(message, option)
+    {
+        let data = (await this.db.all(`SELECT * FROM 'logging' WHERE guildid = ?`, [message.guild.id]))[0];
+        let logChannel = data.logChannel;
+
+        if (!data[option]) return false;
+        
+        let channel = message.guild.channels.get(logChannel);
+        if (!logChannel || !channel) return false;
+
+        if (!channel.permissionsFor(message.guild.me).has(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS"])) return false;
+
+        return channel;
+    }
+
     userFromMention(mention)
     {
         const matches = mention.match(/^<@!?(\d+)>$/);

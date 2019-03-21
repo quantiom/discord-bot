@@ -19,10 +19,10 @@ module.exports = async (app, client) => {
 
         if (!check) return res.redirect('/');
 
-        app.db.all('SELECT * FROM announcements WHERE guildid=? LIMIT 1', [req.params.id]).then(announcements => {
-            announcements = announcements[0];
-            res.render('pages/manageguild', {id, guild: client.guilds.get(check.id), client, announcements});
-        });
+        let announcements = (await app.db.all('SELECT * FROM announcements WHERE guildid=? LIMIT 1', [req.params.id]))[0];
+        let logging = (await app.db.all('SELECT * FROM logging WHERE guildid=? LIMIT 1', [req.params.id]))[0];
+        
+        res.render('pages/manageguild', {id, guild: client.guilds.get(check.id), client, announcements, logging});
     })
     
     app.get('/commands', (req, res) => {
