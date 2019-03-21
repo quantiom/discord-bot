@@ -12,18 +12,22 @@
             <p class="lead">
                 <% let count = 0; %>
                 <% req.session.guilds.forEach(guild => { %>
+                    <% let perms = new Discord.Permissions(guild.permissions); %>
+                    <% if (perms.has('ADMINISTRATOR')) { %>
                     <% count++; %>
                     <% if (guild.icon) { %>
                     <a href="/servers/<%= guild.id %>"><img hspace="10" data-toggle="tooltip" data-placement="bottom" title="<%= guild.name %>" style="border: 2px solid white;" class="rounded-circle" height="75" width="75" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>"></a>
                     <% } else { %>
                         <a href="/servers/<%= guild.id %>"><img hspace="10" data-toggle="tooltip" data-placement="bottom" title="<%= guild.name %>" style="border: 2px solid white;" class="rounded-circle" height="75" width="75" src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b599127509772f2125568318a38f24e64881de61_full.jpg"></a>
                     <% } %>
-                    <% if (count == 6) { %>
+                    <% if (count == 4) { %>
                         <br/><br/>
                     <% count = 0; } %>
+                    <% } %>
                 <% }) %>
             </p><br/>
-            <a href="/logout" class="btn btn-lg btn-secondary">Logout</a>
+            <a href="/logout" class="btn btn btn-secondary">Logout</a>
+            <a href="/commands" class="btn btn btn-secondary">Commands</a>
           </div>
           <% include ../inc/footer.ejs %>
         </div>

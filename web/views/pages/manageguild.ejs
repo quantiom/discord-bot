@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>quantiom bot - <%= guild.name %></title>
+    <link href="../bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/cover.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="../css/style.css" rel="stylesheet">
+    <script>
+    $(document).ready(function(){
+
+      function initHideAll()
+      {
+        $("#announcements").hide();
+        $("#logging").hide();
+        $("#customcommands").hide();
+      }
+
+      initHideAll();
+
+      function hideAll()
+      {
+        $("#announcements").slideUp(1000);
+        $("#logging").slideUp(1000);
+        $("#start").slideUp(1000);
+        $("#customcommands").slideUp(1000);
+      }
+
+      $('#announcementsOpen').click(function(e) { e.preventDefault(); hideAll(); $('#start').slideUp(1000); $("#announcements").slideDown(1000); });
+      $('#loggingOpen').click(function(e) { e.preventDefault(); hideAll(); $('#start').slideUp(1000); $("#logging").slideDown(1000); });
+      $('#mainOpen').click(function(e) { e.preventDefault(); hideAll(); $("#start").slideDown(1000); });
+      $('#customcommandsOpen').click(function(e) { e.preventDefault(); hideAll(); $("#customcommands").slideDown(1000) });
+
+      $('.module-setting-checkbox').change(function() {
+        $.ajax({
+          type:"POST",
+          url:"../api/<%= guild.id %>/updateSetting",
+          data:{module:$(this).data("module"),setting:$(this).data("name"),value:this.checked},
+          success: function(data) {
+            if (data.success) toastr.success(data.success);
+          },
+          error: function(data) {
+            toastr.error(data.error)
+          }
+        })
+      })
+
+      $('.setting-dropdown').change(function() {
+        var sSetting = $(this).attr('name'),
+            sModule = $(this).attr('data-module'),
+            sValue = $(this).val();
+
+        $.ajax({
+          type:"POST",
+          url:"../api/<%= guild.id %>/updateSetting",
+          data:{module:sModule,setting:sSetting,value:sValue},
+          success: function(data) {
+            if (data.success) toastr.success(data.success);
+          }
+        })
+      })
+
+      $('.update-module-setting').on('click', function (e) {
+        e.preventDefault();
+
+        var parent = $(this).closest('form'),
+          text = parent.find('input[type=text], textarea'),
+          module = text.attr('data-module'),
+          setting = text.attr('name')
+
+          $.ajax({
+            type:"POST",
+            url:"../api/<%= guild.id %>/updateSetting",
+            data:{module:module,setting:setting,value:text.val()},
+            success: function(data) {
+              if (data.success) toastr.success(data.success);
+            }
+          })
+      })
+
+      $('#addCommandSubmit').on('click', function (e) {
+        e.preventDefault();
+
+        var cmd = $("#addCommandCommand").val();
+        var rsponse = $("#addCommandResponse").val();
+
+        $.ajax({
+          type:"POST",
+          url:"../api/<%= guild.id %>/addCommand",
+          data:{command:cmd,response:rsponse},
+          success: function(data) {
+            if (data.success) {
+              toastr.success(data.success.split(":")[0]);
+
+
+              $("#commandTable").find('tbody')
+              .append($('<tr>')
+                  .append($('<td>')
+                      .text(cmd))
+                  .append($('<td>')
+                      .text(rsponse))
+                  .append($('<td>')
+                      .append($('<a>').attr('class', "btn btn-dark removeCommand").attr('data-id', data.success.split(':')[1])
+                      .text("Delete"))
+                        ))
+
+            }
+          },
+          error: function(data) {
+            toastr.error(data)
+          }
+        })
+      })
+
+      $('.removeCommand').on('click', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+          type:"POST",
+          url:"../api/<%= guild.id %>/removeCommand",
+          data:{id:$(this).attr('data-id')},
+          success: function(data) {
+            if (data.success) { toastr.success(data.success); $(this).parent().remove(); }
+          },
+          error: function(data) {
+            toastr.error(data);
+          }
+        })
+      })
+
+    });
+</script>
+
+  <style type="text/css">
+:root #content > #right > .dose > .dosesingle,
+:root #content > #center > .dose > .dosesingle
+{ display: none !important; }</style></head>
+
+  <body>
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="inner cover">
+            <div class="container h-100">
+                <div class="row h-85 justify-content-center align-items-center">
+              <div class="container-fluid" style="margin-top:80px">
+
+                <!-- Announcements -->
+                <div id="announcements">
+                  <h1>Announcements</h1>
+                  <hr style="color: #fff;background-color: #fff;">
+                  <p> Announcements range from many different options such as join messages, leave messages, ban messages, and more. </p>
+                  <!-- Checkboxes -->
+                  <hr><br/>
+                  <div class="module-toggles">
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="announcements" data-name="joinEnabled" <% if (announcements.joinEnabled) { %> checked <% } %>>
+                        <label>Join Messages</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="announcements" data-name="leaveEnabled" <% if (announcements.leaveEnabled) { %> checked <% } %>>
+                        <label>Leave Messages</label>
+                    </p>
+                  </div>
+                  <hr>
+                  <label style="font-size:16px;">Channel</label><br/>
+                  <span class="select">
+            			<select class="setting-dropdown" name="announceChannel" data-module="announcements">
+            				<option value="ignore">Select Channel</option>
+                    <% guild.channels.forEach(function(channel) { %>
+                      <% if (channel.type === 'text') { %>
+                      <option value="<%= channel.id %>" <% if (!client.channels.get(channel.id).permissionsFor(guild.me).has(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS"])) { %> disabled <% } %> <% if (channel.id == announcements.announceChannel) { %> selected="selected" <% } %>>#<%= channel.name %></option>
+                      <% } %>
+                    <% }) %>
+            			</select>
+            		  </span>
+                  <hr>
+                  <div class="module-multitext">
+                    <label style="font-size:16px;">Join Message</label><br/>
+                    <form class="text-form">
+                      <p>
+                				<textarea class="input" name="joinMessage" data-module="announcements" style="margin: 0px; width: 506px; height: 83px;"><%= announcements.joinMessage %></textarea>
+                			</p>
+                      <input class="btn btn-dark update-module-setting" type="button" value="Update">
+                    </form>
+                  </div>
+                  <hr>
+                  <div class="module-multitext">
+                    <label style="font-size:16px;">Leave Message</label><br/>
+                    <form class="text-form">
+                      <p>
+                				<textarea class="input" name="leaveMessage" data-module="announcements" style="margin: 0px; width: 506px; height: 83px;"><%= announcements.leaveMessage %></textarea>
+                			</p>
+                      <input class="btn btn-dark update-module-setting" type="button" value="Update">
+                    </form>
+                  </div>
+                  <hr>
+                  <div style="text-align:center;">
+                    <p>
+                    <code>{@user}</code> Tags the user.<br>
+                    <code>{username}</code> The username of the user.<br>
+                    <code>{server}</code> The server name.<br>
+                    </p>
+                  </div>
+                </div>
+                <!-- End of Announcements -->
+
+                <!-- Start -->
+                <div id="start">
+                <h1>Managing Server</h1><h2 style="color:#7289DA"><%= guild.name %></h2>
+                </div>
+                <!-- End of Start -->
+              </div>
+              </div>
+          </div>
+          <br/>
+          <p class="lead">
+          <a href="" id="mainOpen" class="btn btn-lg btn-secondary">Main</a> <a href="" id="announcementsOpen" class="btn btn-lg btn-secondary">Announcements</a> <a href="" id="loggingOpen" class="btn btn-lg btn-secondary">Logging</a> <a href="" id="customcommandsOpen" class="btn btn-lg btn-secondary">Custom Commands</a>
+          </p>
+        </div><br/><br/>
+        <a href="/" class="btn btn btn-secondary">Back</a> <a href="/commands" class="btn btn btn-secondary">Commands</a>
+        <%- include ../inc/footer.ejs %>
+
+      </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../bootstrap/tether.min.js.download" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="../bootstrap/bootstrap.min.js.download"></script>
+    <script src="../bootstrap/ie10-viewport-bug-workaround.js.download"></script>
+
+    <script>
+      $(document).ready(function()  {
+        $('#addCmd').click(function(e) {
+          e.preventDefault();
+
+          $.ajax({
+            type:"POST",
+            url:"/api/commands/add/<%= guild.id %>",
+            data:{"command":$("#inputCommand").val(),"response":$("#inputResponse").val()},
+            success: function(data) {
+
+            }
+          })
+          toastr.success("Added command.");
+        })
+      })
+    </script>
+
+
+</body></html>
