@@ -13,16 +13,26 @@
                 <% let count = 0; %>
                 <% req.session.guilds.forEach(guild => { %>
                     <% count++; %>
-                    <a href="/servers/<%= guild.id %>" data-toggle="tooltip"><img hspace="10" style="border: 2px solid white;" class="rounded-circle" height="75" width="75" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>"></a>
+                    <% if (guild.icon) { %>
+                    <a href="/servers/<%= guild.id %>"><img hspace="10" data-toggle="tooltip" data-placement="bottom" title="<%= guild.name %>" style="border: 2px solid white;" class="rounded-circle" height="75" width="75" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>"></a>
+                    <% } else { %>
+                        <a href="/servers/<%= guild.id %>"><img hspace="10" data-toggle="tooltip" data-placement="bottom" title="<%= guild.name %>" style="border: 2px solid white;" class="rounded-circle" height="75" width="75" src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b599127509772f2125568318a38f24e64881de61_full.jpg"></a>
+                    <% } %>
                     <% if (count == 6) { %>
                         <br/><br/>
                     <% count = 0; } %>
                 <% }) %>
-            </p>
+            </p><br/>
+            <a href="/logout" class="btn btn-lg btn-secondary">Logout</a>
           </div>
           <% include ../inc/footer.ejs %>
         </div>
       </div>
     </div>
     <% include ../inc/scripts.ejs %>
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 </body></html>
