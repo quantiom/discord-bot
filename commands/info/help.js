@@ -11,7 +11,7 @@ module.exports = class extends Command
             name: "help", 
             description: "Used to get all the commands, or info on a certain command.",
             usage: "help |command|",
-            aliases: ['h', 'halp']
+            aliases: ['h']
         });
     }
 

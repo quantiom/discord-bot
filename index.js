@@ -1,8 +1,11 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
-const Handler = new (require('./utils/handler.js'))(client);
-const Utils = new (require('./utils/utils.js'))(client);
+const Handler = new (require('./utils/handler'))(client);
+const Utils = new (require('./utils/utils'))(client);
+const Web = require('./web/index');
+const express = require('express');
+const app = express();
 
 module.exports = {
     Handler: Handler,
@@ -14,3 +17,4 @@ module.exports = {
 client.login(config.token);
 Handler.setupCommands(__dirname + '\\commands');
 Handler.setupEvents(__dirname + '\\events');
+Web.start(app);
