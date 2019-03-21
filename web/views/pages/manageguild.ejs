@@ -215,6 +215,92 @@
                 </div>
                 <!-- End of Announcements -->
 
+                <!-- Logging -->
+                <div id="logging">
+                    <h1>Logging</h1>
+                    <hr style="color: #fff;background-color: #fff;">
+                    <p> Logging is used to see what actions really happens in your server. These include people deleting messages, kicking, banning, etc...</p>
+                    <!-- Checkboxes -->
+                    <hr>
+                    <div>
+                    <label style="font-size:16px;">Logging channel</label><br>
+                    <span class="select">
+                            <select class="setting-dropdown" name="logChannel" data-module="logging">
+                                <option value="ignore">Select Channel</option>
+                        <% guild.channels.forEach(function(channel) { %>
+                        <% if (channel.type === 'text') { %>
+                        <option value="<%= channel.id %>" <% if (!req.app.get('client').channels.get(channel.id).permissionsFor(guild.me).has(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS"])) { %> disabled <% } %> <% if (channel.id == logging.logChannel) { %> selected="selected" <% } %>>#<%= channel.name %></option>
+                        <% } %>
+                        <% }) %>
+                            </select>
+                        </span>
+                    </div>
+                    <hr><br>
+                    <div class="module-toggles">
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="messageEdits" <% if (logging.messageEdits) { %> checked <% } %>>
+                        <label>Message Edits</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="messageDeletes" <% if (logging.messageDeletes) { %> checked <% } %>>
+                        <label>Deleted Messages</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="memberJoins" <% if (logging.memberJoins) { %> checked <% } %>>
+                        <label>Member Joins</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="memberLeaves" <% if (logging.memberLeaves) { %> checked <% } %>>
+                        <label>Member Leaves</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="memberBanned" <% if (logging.memberBanned) { %> checked <% } %>>
+                        <label>Member Banned</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="memberUnbanned" <% if (logging.memberUnbanned) { %> checked <% } %>>
+                        <label>Member Unbanned</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" disabled readonly data-module="logging" data-name="memberKicked">
+                        <label>Member Kicked</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="channelCreate" <% if (logging.channelCreate) { %> checked <% } %>>
+                        <label>Channel Create</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="channelDelete" <% if (logging.channelDelete) { %> checked <% } %>>
+                        <label>Channel Delete</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="roleCreate" <% if (logging.roleCreate) { %> checked <% } %>>
+                        <label>Role Create</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="roleDelete" <% if (logging.roleDelete) { %> checked <% } %>>
+                        <label>Role Delete</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="roleEdit" <% if (logging.roleEdit) { %> checked <% } %>>
+                        <label>Role Updated/Edited</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="roleGiven" <% if (logging.roleGiven) { %> checked <% } %>>
+                        <label>Role Given</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="roleRemoved" <% if (logging.roleRemoved) { %> checked <% } %>>
+                        <label>Role Removed</label>
+                    </p>
+                    <p class="module-checkbox">
+                        <input class="module-setting-checkbox" type="checkbox" data-module="logging" data-name="memberNickname" <% if (logging.memberNickname) { %> checked <% } %>>
+                        <label>Nickname Changed</label>
+                    </p>
+                    </div>
+                </div>
+                      <!-- End of Logging -->
+
                 <!-- Start -->
                 <div id="start">
                 <h1>Managing Server</h1><h2 style="color:#7289DA"><%= guild.name %></h2>

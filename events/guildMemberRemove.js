@@ -2,22 +2,20 @@ const { Utils } = require('../index.js');
 
 module.exports = async (client, member) => {
 
-    member.guild.fetchMember(member, true);
-
     let data = (await Utils.db.all('SELECT * FROM announcements WHERE guildid=? LIMIT 1', [member.guild.id]))[0];
     if (!data.announceChannel || data.announceChannel.toLowerCase() == 'ignore') return;
-    if (!data.joinEnabled || !data.joinMessage || data.joinMessage.length > 1500) return;
+    if (!data.leaveEnabled || !data.leaveMessage || data.leaveMessage.length > 1500) return;
 
     let channel = member.guild.channels.get(data.announceChannel);
     if (!channel || !channel.permissionsFor(member.guild.me).has('SEND_MESSAGES')) return;
 
-    let newJoinMessage = data.joinMessage;
+    let newLeaveMessage = data.leaveMessage;
 
-    newJoinMessage = newJoinMessage.replace('{username}', member.user.username);
-    newJoinMessage = newJoinMessage.replace('{@user}', member);
-    newJoinMessage = newJoinMessage.replace('{server}', member.guild.name);
+    newLeaveMessage = newLeaveMessage.replace('{username}', member.user.username);
+    newLeaveMessage = newLeaveMessage.replace('{@user}', member.user.tag);
+    newLeaveMessage = newLeaveMessage.replace('{server}', member.guild.name);
 
-    let split = newJoinMessage.split(' ');
+    let split = newLeaveMessage.split(' ');
     
     for (let i = 0; i < split.length; i++)
     {
