@@ -7,7 +7,6 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports.start = (app) => {
-
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
     //app.use(morgan('dev'));
@@ -22,4 +21,11 @@ module.exports.start = (app) => {
     app.use(express.static(__dirname + '/views/public'));
     app.listen(3000);
 
+    fs.readdirSync(__dirname + '/views').forEach(function(file) {
+        var stat = fs.lstatSync(__dirname + '/views/' + file);
+      
+        if (file.toLowerCase().indexOf('.js') && !stat.isDirectory()) {
+            require(__dirname + '/views/' + file)(app);
+        }
+    });
 };
