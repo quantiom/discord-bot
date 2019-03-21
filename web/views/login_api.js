@@ -10,9 +10,7 @@ module.exports = async (app, client) => {
     })
 
     app.get('/callback', async (req, res) => {
-
         if (!req.query.code) return res.redirect('/');
-        console.log('a');
         var params = new URLSearchParams();
         params.append('client_id', '501266577774215168');
         params.append('client_secret', '7yNLN4NZvD4Vf4jqr6edcK5CQXddQMLi');
@@ -27,10 +25,8 @@ module.exports = async (app, client) => {
             headers: { 'content-type': 'application/x-www-form-urlencoded' }
         }).then(res => res.json())
             .then(async token_response => {
-                console.log('b');
                 if (token_response.error) return res.redirect('/');
                 let access_token = token_response.access_token;
-                console.log('c');
                 await fetch('https://discordapp.com/api/users/@me', {
                     method: 'GET',
                     headers: { 'Authorization': `Bearer ${access_token}` }
@@ -38,8 +34,6 @@ module.exports = async (app, client) => {
                     if (user_response.error) return res.redirect('/');
                     req.session.logged_in = true;
                     req.session.user = user_response;
-                    console.log('d');
-                    console.log(req.sesssion);
                 })
     
                 await fetch('https://discordapp.com/api/users/@me/guilds', {

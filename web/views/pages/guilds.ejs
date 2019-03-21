@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include ../inc/head.ejs %>
+  <body>
+    <div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="inner cover">
+            <h1 class="cover-heading" style="color:#7289DA">quantiom bot</h1>
+            <p class="lead">Select a guild to manage.</p>
+            <br/>
+            <p class="lead">
+                <% let count = 0; %>
+                <% req.session.guilds.forEach(guild => { %>
+                    <% count++; %>
+                    <a href="/servers/<%= guild.id %>" data-toggle="tooltip"><img hspace="10" style="border: 2px solid white;" class="rounded-circle" height="75" width="75" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>"></a>
+                    <% if (count == 6) { %>
+                        <br/><br/>
+                    <% count = 0; } %>
+                <% }) %>
+            </p>
+          </div>
+          <% include ../inc/footer.ejs %>
+        </div>
+      </div>
+    </div>
+    <% include ../inc/scripts.ejs %>
+</body></html>

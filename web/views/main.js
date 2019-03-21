@@ -2,9 +2,11 @@ var sqlite = require('sqlite');
 var { Handler } = require('../../');
 
 module.exports = async (app, client) => {
-
 	app.get('/', (req, res) => {
-        res.render('pages/login', {req, client});
+        if (!req.session.user)
+            res.render('pages/login', {req, client});
+        else
+            res.render('pages/guilds', {req, client, Handler});
     });
     
     app.get('/commands', (req, res) => {

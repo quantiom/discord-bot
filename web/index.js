@@ -13,7 +13,7 @@ module.exports.start = async (app, client) => {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(session({
         store: new SQLiteStore,
-        secret: 'ab189i2k390dladsfmasdam',
+        secret: 'fdsjuifasdfids8h1u4fds',
         cookie: { maxAge: 604800 * 1000 }, // "expires_in": 604800
         resave: false,
         saveUninitialized: true
