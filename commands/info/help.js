@@ -9,22 +9,41 @@ module.exports = class extends Command
     {
         super({
             name: "help", 
-            description: "shows this shit",
-            usage: "help |command|"
+            description: "Used to get all the commands, or info on a certain command.",
+            usage: "help |command|",
+            aliases: ['h', 'halp']
         });
     }
 
     async execute(client, message, args)
     {
-        let helpEmbed = new RichEmbed()
-            .setAuthor(client.user.username, client.user.displayAvatarURL)
-            .setDescription(`Prefix: \`${config.prefix}\`\nUse \`${config.prefix}help <command name>\` to get information on a certain command.`)
-            .setColor(0xd83232);
+        if (args[1])
+        {
+            let command = Handler.commands.get(args[1].toLowerCase()) || Handler.aliases.get(args[1].toLowerCase());
+            if (!command)
+                return message.channel.send(Utils.embed("Help", "Invalid command."));
 
-        Handler.categories.forEach((commands, category) => {
-            helpEmbed.addField(`${category} (${commands.length})`, commands.map(cmd => `\`${cmd.name}\``).join('\n'));
-        });
+            let commandEmbed = new RichEmbed()
+                .setAuthor('Help', client.user.displayAvatarURL)
+                .setColor(Utils.red)
+                .addField('Usage', command.usage)
+                .addField('Description', command.description)
+            
+            if (command.aliases.length > 0)
+                commandEmbed.addField('Aliases', command.aliases.map(alias => alias).join(', '));
 
-        message.channel.send(helpEmbed);
+            message.channel.send(commandEmbed);
+        } else {
+            let helpEmbed = new RichEmbed()
+                .setAuthor('Help', client.user.displayAvatarURL)
+                .setDescription(`Prefix: \`${config.prefix}\`\nUse \`${config.prefix}help <command name>\` to get information on a certain command.`)
+                .setColor(Utils.red);
+
+            Handler.categories.forEach((commands, category) => {
+                helpEmbed.addField(`${category} (${commands.length})`, commands.map(cmd => `\`${cmd.name}\``).join('\n'));
+            });
+
+            message.channel.send(helpEmbed);
+        }
     }
 }

@@ -1,4 +1,4 @@
-let Command = require('../../Utils/command.js');
+const Command = require('../../Utils/command.js');
 
 module.exports = class extends Command 
 {

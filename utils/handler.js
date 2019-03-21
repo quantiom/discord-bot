@@ -21,9 +21,9 @@ class Handler
                 let cmd_obj = new props();
                 this.categories.push(category, cmd_obj);
                 this.commands.set(command, cmd_obj);
-                if (cmd_obj.aliases.length > 0)
+                if (cmd_obj.aliases && cmd_obj.aliases.length > 0)
                 cmd_obj.aliases.forEach(alias => {
-                    this.aliases.set(alias, cmd_obj.name);
+                    this.aliases.set(alias, cmd_obj);
                 });
             });
         });

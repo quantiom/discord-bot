@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
 const Handler = new (require('./utils/handler.js'))(client);
-const Utils = require('./utils/utils.js');
+const Utils = new (require('./utils/utils.js'))(client);
 
 module.exports = {
     Handler: Handler,
