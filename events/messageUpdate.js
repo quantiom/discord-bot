@@ -5,7 +5,7 @@ module.exports = async (client, oldMessage, newMessage) => {
 
     if (oldMessage.content == newMessage.content) return;
 
-    Utils.logCheck(oldMessage, 'messageEdits').then(logChannel => {
+    Utils.logCheck(oldMessage.guild, 'messageEdits').then(logChannel => {
         if (!logChannel) return;  
 
         oldReduced = oldMessage.content;

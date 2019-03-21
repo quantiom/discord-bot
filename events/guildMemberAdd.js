@@ -1,8 +1,21 @@
 const { Utils } = require('../index.js');
+const { RichEmbed } = require('discord.js');
 
 module.exports = async (client, member) => {
 
     member.guild.fetchMember(member, true);
+
+    Utils.logCheck(member.guild, 'memberLeaves').then(logChannel => {
+        if (!logChannel) return;
+
+        logChannel.send(new RichEmbed()
+            .setAuthor("User Joined", client.user.displayAvatarURL)
+            .addField("Username", member.user.tag)
+            .addField("ID", member.user.id)
+            .addField("Account Creation", member.user.createdAt)
+            .setTimestamp()
+            .setColor(Utils.red))
+    });
 
     let data = (await Utils.db.all('SELECT * FROM announcements WHERE guildid=? LIMIT 1', [member.guild.id]))[0];
     if (!data.announceChannel || data.announceChannel.toLowerCase() == 'ignore') return;
