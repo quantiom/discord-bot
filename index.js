@@ -17,4 +17,4 @@ module.exports = {
 client.login(config.token);
 Handler.setupCommands(__dirname + '\\commands');
 Handler.setupEvents(__dirname + '\\events');
-Web.start(app);
+Web.start(app, client);

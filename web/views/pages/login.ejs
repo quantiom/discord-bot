@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include ../inc/head.ejs %>
+  <body>
+    <div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="inner cover">
+            <h1 class="cover-heading" style="color:#7289DA">quantiom bot</h1>
+            <p class="lead">Login, or view the commands.</p>
+            <br/>
+            <p class="lead">
+              <a href="https://discordapp.com/oauth2/authorize?client_id=<%= client.user.id %>&scope=identify guilds&response_type=code&redirect_uri=http://localhost:3000/callback" class="btn btn-lg btn-secondary">Login</a>
+              <a href="/commands" class="btn btn-lg btn-secondary">Commands</a>
+            </p>
+          </div>
+          <% include ../inc/footer.ejs %>
+        </div>
+      </div>
+    </div>
+    <% include ../inc/scripts.ejs %>
+</body></html>

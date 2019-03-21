@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include ../inc/head.ejs %>
+  <body>
+    <div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="inner cover">
+            <div class="container h-100">
+                <div class="row h-85 justify-content-center align-items-center">
+              <div class="container-fluid" style="margin-top:80px">
+                  <h1 style="color:#7289DA">quantiom bot</h1>
+                  <h2 style="color:#fff">commands</h2>
+              </div>
+              </div>
+          </div>
+          <br/>
+          <table style="text-align:left;" class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Command</th>
+              <th scope="col">Description</th>
+              <th scope="col">Category</th>
+              <th scope="col">Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% Handler.commands.map(c => { %>
+            <tr>
+              <td><%= c.name %></td>
+              <td><%= c.description %></td>
+              <td><%= c.category %></td>
+              <td>q!<%= c.usage %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table><br/>
+        <a href="/" class="btn btn-lg btn-secondary">Back</a>
+
+    </div>
+    <% include ../inc/footer.ejs %>
+      </div>
+    </div>
+    <% include ../inc/scripts.ejs %>
+</body></html>

@@ -6,7 +6,7 @@ const SQLiteStore = require('connect-sqlite3')(session);
 const fs = require('fs');
 const path = require('path');
 
-module.exports.start = (app) => {
+module.exports.start = (app, client) => {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
     //app.use(morgan('dev'));
@@ -25,7 +25,7 @@ module.exports.start = (app) => {
         var stat = fs.lstatSync(__dirname + '/views/' + file);
       
         if (file.toLowerCase().indexOf('.js') && !stat.isDirectory()) {
-            require(__dirname + '/views/' + file)(app);
+            require(__dirname + '/views/' + file)(app, client);
         }
     });
 };
