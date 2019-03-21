@@ -5,11 +5,11 @@ const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const fs = require('fs');
 const path = require('path');
+const sqlite = require('sqlite');
 
-module.exports.start = (app, client) => {
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'ejs');
-    //app.use(morgan('dev'));
+module.exports.start = async (app, client) => {
+    let db = await sqlite.open('./data/database.sqlite');
+    app.db = db;
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(session({
         store: new SQLiteStore,
@@ -18,6 +18,9 @@ module.exports.start = (app, client) => {
         resave: false,
         saveUninitialized: true
     }));
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'ejs');
+    app.use(morgan('dev'));
     app.use(express.static(__dirname + '/views/public'));
     app.listen(3000);
 
