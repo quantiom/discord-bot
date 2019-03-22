@@ -1,6 +1,8 @@
 const { Utils } = require('../index.js');
 
 module.exports = async (client, message) => {
+    if (message.author.bot) return;
+    
     if (message.channel.type == 'text')
     Utils.logCheck(message.guild, 'messageDeletes').then(logChannel => {
         if (!logChannel) return;  
