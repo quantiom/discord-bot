@@ -1,0 +1,16 @@
+const { Utils } = require('../index.js');
+const { RichEmbed } = require('discord.js');
+
+module.exports = async (client, role) => {
+    Utils.logCheck(role.guild, 'roleCreate').then(logChannel => {
+        if (!logChannel) return;
+
+        logChannel.send(new RichEmbed()
+            .setAuthor("Role Created", client.user.displayAvatarURL)
+            .addField("Role Name", role)
+            .addField("Permissions", "[Click here](https://discordapi.com/permissions.html#"+role.permissions+")")
+            .addField("ID", role.id)
+            .setTimestamp()
+            .setColor(Utils.red));
+    });
+};
