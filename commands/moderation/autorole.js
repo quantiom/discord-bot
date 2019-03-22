@@ -9,15 +9,13 @@ module.exports = class extends Command
             name: "autorole", 
             description: "Assigns the role to automatically give to new members, for this server.",
             usage: "autorole <role name | @role | role id | none>",
-            permissions: ['MANAGE_ROLES']
+            permissions: ['MANAGE_ROLES'],
+            bot_permissions: ['MANAGE_ROLES']
         });
     }
 
     async execute(client, message, args)
-    {   
-        if (!message.guild.me.hasPermission(['MANAGE_ROLES']))
-            return message.channel.send(Utils.errorEmbed("I am missing the \`MANAGE_ROLES\` permission."));
-
+    {
         if (!args[1])
             return message.channel.send(Utils.usageError(this));
 

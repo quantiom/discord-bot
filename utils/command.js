@@ -8,6 +8,7 @@ class Command
         this.aliases = options.aliases || [];
         this.type = options.type || 'text';
         this.permissions = options.permissions || [];
+        this.bot_permissions = options.bot_permissions || [];
     }
 }
 

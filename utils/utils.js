@@ -81,6 +81,13 @@ class Utils
         return this.client.users.get(matches[1]);
     }
 
+    memberFromMention(mention, guild)
+    {
+        const matches = mention.match(/^<@!?(\d+)>$/);
+        if (!matches) return null;
+        return guild.members.get(matches[1]);
+    }
+
     roleFromMention(mention, guild)
     {
         const matches = mention.match(/^<@&(\d+)>$/);

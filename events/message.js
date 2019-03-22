@@ -19,16 +19,28 @@ module.exports = async (client, message) => {
     
     if (message.channel.type !== cmd.type) return;
 
-    if (cmd.type == 'text' && cmd.permissions && cmd.permissions.length > 0)
+    if (cmd.type == 'text')
     {
-        if (!message.member.hasPermission(cmd.permissions))
+        if (cmd.permissions.length > 0 && !message.member.hasPermission(cmd.permissions))
         {
             if (message.channel.permissionsFor(message.guild.me).has(['SEND_MESSAGES', 'EMBED_LINKS']))
                 return message.channel.send(Utils.errorEmbed(`You cannot use this command because you are missing the \`${cmd.permissions.map(c => c).join(', ')}\` permission(s).`));
+            else if (message.channel.permissionsFor(message.guild.me).has(['SEND_MESSAGES']))
+                return message.channel.send(`You cannot use this command because you are missing the \`${cmd.permissions.map(c => c).join(', ')}\` permission(s).`);
+
             return;
-        }
-            
-    }
+        };
+
+        if (cmd.bot_permissions.length > 0 && !message.guild.me.hasPermission(cmd.bot_permissions))
+        {
+            if (message.channel.permissionsFor(message.guild.me).has(['SEND_MESSAGES', 'EMBED_LINKS']))
+                return message.channel.send(Utils.errorEmbed(`I am missing the \`${cmd.bot_permissions.map(c => c).join(', ')}\` permission(s).`));
+            else if (message.channel.permissionsFor(message.guild.me).has(['SEND_MESSAGES']))
+                return message.channel.send(`I am missing the \`${cmd.bot_permissions.map(c => c).join(', ')}\` permission(s).`);
+
+            return;
+        };
+    };
 
     cmd.execute(client, message, message.content.split(' '));
 }
