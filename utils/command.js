@@ -6,6 +6,8 @@ class Command
         this.description = options.description || 'Default description.';
         this.usage = options.usage || options.name;
         this.aliases = options.aliases || [];
+        this.type = options.type || 'text';
+        this.permissions = options.permissions || [];
     }
 }
 

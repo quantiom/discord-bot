@@ -20,6 +20,7 @@ class Handler
                 let props = require(`${commandDir}/${category}/${command}.js`);
                 let cmd_obj = new props();
                 this.categories.push(category, cmd_obj);
+                cmd_obj.category = category;
                 this.commands.set(command, cmd_obj);
                 if (cmd_obj.aliases && cmd_obj.aliases.length > 0)
                 cmd_obj.aliases.forEach(alias => {

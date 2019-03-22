@@ -3,6 +3,7 @@ const { RichEmbed } = require('discord.js');
 
 module.exports = async (client, oldMessage, newMessage) => {
 
+    if (oldMessage.channel.type !== 'text') return;
     if (oldMessage.content == newMessage.content) return;
 
     Utils.logCheck(oldMessage.guild, 'messageEdits').then(logChannel => {

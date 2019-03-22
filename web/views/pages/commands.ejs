@@ -4,9 +4,9 @@
   <body>
     <div class="site-wrapper">
       <div class="site-wrapper-inner">
-        <div class="cover-container">
+        <div class="cover-container" style="width:70rem !important;">
           <div class="inner cover">
-            <div class="container h-100">
+            <div class="container">
                 <div class="row h-85 justify-content-center align-items-center">
               <div class="container-fluid" style="margin-top:80px">
                   <h1 style="color:#7289DA">quantiom bot</h1>
@@ -29,17 +29,13 @@
             <tr>
               <td><%= c.name %></td>
               <td><%= c.description %></td>
-              <td><%= c.category %></td>
+              <td><%= c.category.charAt(0).toUpperCase() + c.category.slice(1) %></td>
               <td>q!<%= c.usage %></td>
             </tr>
             <% }) %>
           </tbody>
         </table><br/>
         <a href="/" class="btn btn btn-secondary">Back</a>
-
-    </div>
-    <% include ../inc/footer.ejs %>
-      </div>
     </div>
     <% include ../inc/scripts.ejs %>
 </body></html>

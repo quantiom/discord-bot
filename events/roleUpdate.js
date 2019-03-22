@@ -5,6 +5,8 @@ module.exports = async (client, oldRole, newRole) => {
     Utils.logCheck(oldRole.guild, 'roleEdit').then(logChannel => {
         if (!logChannel) return;
 
+        if (oldRole.name == newRole.name && oldRole.permissions == newRole.permissions && oldRole.mentionable == newRole.mentionable && oldRole.hoist == newRole.hoist) return;
+
         let logEmbed = new RichEmbed()
             .setAuthor("Role Updated", client.user.displayAvatarURL)
             .addField("ID", oldRole.id)

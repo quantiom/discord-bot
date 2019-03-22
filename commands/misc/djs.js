@@ -18,6 +18,6 @@ module.exports = class extends Command
     {
         if (!args[1]) return message.channel.send(Utils.usageError(this));
         const embed = await axios.get("https://djsdocs.sorta.moe/main/stable/embed?q=" + message.content.split(' ').slice(1).join(' ')).then(res => res.data);
-        message.channel.send({ embed });
+        message.channel.send({embed});
     }
 }

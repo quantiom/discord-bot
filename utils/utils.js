@@ -80,6 +80,13 @@ class Utils
         if (!matches) return null;
         return this.client.users.get(matches[1]);
     }
+
+    roleFromMention(mention, guild)
+    {
+        const matches = mention.match(/^<@&(\d+)>$/);
+        if (!matches) return null;
+        return guild.roles.get(matches[1]);
+    }
 }
 
 module.exports = Utils;

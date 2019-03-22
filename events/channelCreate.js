@@ -2,6 +2,7 @@ const { Utils } = require('../index.js');
 const { RichEmbed } = require('discord.js');
 
 module.exports = async (client, channel) => {
+    if (channel.type == 'text')
     Utils.logCheck(channel.guild, 'channelCreate').then(logChannel => {
         if (!logChannel) return;
 
