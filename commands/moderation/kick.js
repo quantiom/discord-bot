@@ -25,8 +25,10 @@ module.exports = class extends Command
         if (!member.kickable)
             return message.channel.send(Utils.errorEmbed("I cannot kick this member, his/her role may be above mine, or they may be the owner of the server."));
 
-        let reason = "Kicked by " + message.author.tag + ". Reason: " + args.slice(2).join(' ') || "Kicked by " + message.author.tag + ".";
-
+        let reason = "Kicked by " + message.author.tag + ".";
+        if (args[2])
+            reason = "Kicked by " + message.author.tag + ". Reason: " + args.slice(2).join(' ');
+            
         member.kick(reason)
 
         return message.channel.send(Utils.embed("Success", `Kicked ${member.user.tag}.`)); 
