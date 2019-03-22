@@ -1,6 +1,6 @@
 const { Handler } = require('../../');
 const { Permissions } = require('discord.js');
-
+const { config } = require('../../')
 function error(message, res)
 {
     res.status(400).send({error: message});
@@ -48,12 +48,17 @@ module.exports = async (app, client) => {
         if (req.body.command.toLowerCase().startsWith(config.prefix.toLowerCase()))
         return error("Your command cannot start with " + config.prefix, res);
 
-        var query = await app.db.all(`SELECT COUNT(id) FROM commands WHERE guildid = ${req.params.id}`);
+        let query = await app.db.all(`SELECT * FROM commands WHERE guildid=${req.params.id} AND command=?`, [req.body.command.toLowerCase()]);
+        
+        if (query[0])
+        return error("There is already an auto responder with that name.", res);
+
+        let query2 = await app.db.all(`SELECT COUNT(id) FROM commands WHERE guildid = ${req.params.id}`);
+        
+        if (query2[0]['COUNT(id)'] >= 20)
+        return error("You may only have up to 20 auto responders.", res);
       
-        if (query[0]['COUNT(id)'] >= 20)
-        return error("You may only have up to 20 custom commands.", res);
-      
-        var query = await app.db.run(`INSERT INTO commands (guildid, command, response) VALUES (${req.params.id}, ?, ?)`, [req.body.command, req.body.response]).then(after => {
+        var query3 = await app.db.run(`INSERT INTO commands (guildid, command, response) VALUES (${req.params.id}, ?, ?)`, [req.body.command.toLowerCase(), req.body.response]).then(after => {
           ok("Added command.:" + after.stmt.lastID, res);
         });
       });

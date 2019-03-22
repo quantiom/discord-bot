@@ -21,8 +21,9 @@ module.exports = async (app, client) => {
 
         let announcements = (await app.db.all('SELECT * FROM announcements WHERE guildid=? LIMIT 1', [req.params.id]))[0];
         let logging = (await app.db.all('SELECT * FROM logging WHERE guildid=? LIMIT 1', [req.params.id]))[0];
-        
-        res.render('pages/manageguild', {id, guild: client.guilds.get(check.id), client, announcements, logging});
+        let commands = (await app.db.all('SELECT * FROM commands WHERE guildid=?', [req.params.id]));
+
+        res.render('pages/manageguild', {id, guild: client.guilds.get(check.id), client, announcements, logging, commands});
     })
     
     app.get('/commands', (req, res) => {

@@ -46,7 +46,7 @@
             if (data.success) toastr.success(data.success);
           },
           error: function(data) {
-            toastr.error(data.error)
+            toastr.error(data.responseJSON.error)
           }
         })
       })
@@ -62,6 +62,9 @@
           data:{module:sModule,setting:sSetting,value:sValue},
           success: function(data) {
             if (data.success) toastr.success(data.success);
+          },
+          error: function(data) {
+            toastr.error(data.responseJSON.error);
           }
         })
       })
@@ -80,6 +83,9 @@
             data:{module:module,setting:setting,value:text.val()},
             success: function(data) {
               if (data.success) toastr.success(data.success);
+            },
+            error: function(data) {
+              toastr.error(data.responseJSON.error);
             }
           })
       })
@@ -97,8 +103,6 @@
           success: function(data) {
             if (data.success) {
               toastr.success(data.success.split(":")[0]);
-
-
               $("#commandTable").find('tbody')
               .append($('<tr>')
                   .append($('<td>')
@@ -113,25 +117,26 @@
             }
           },
           error: function(data) {
-            toastr.error(data)
+            toastr.error(data.responseJSON.error);
           }
         })
       })
 
       $('.removeCommand').on('click', function (e) {
         e.preventDefault();
+        $(this).closest("tr").remove();
 
         $.ajax({
           type:"POST",
           url:"../api/<%= guild.id %>/removeCommand",
           data:{id:$(this).attr('data-id')},
           success: function(data) {
-            if (data.success) { toastr.success(data.success); $(this).parent().remove(); }
+            if (data.success) { toastr.success(data.success); }
           },
           error: function(data) {
-            toastr.error(data);
+            toastr.error(data.responseJSON.error);
           }
-        })
+        });
       })
 
     });
@@ -299,7 +304,51 @@
                     </p>
                     </div>
                 </div>
-                      <!-- End of Logging -->
+                <!-- End of Logging -->
+
+                <!-- Custom Commands -->
+                <div id="customcommands">
+                  <h1>Custom Commands</h1>
+                  <hr style="color: #fff;background-color: #fff;">
+                  <p> Custom commands are commands that you can create, to be executed in your server.<br/>The commands are executed when a message matches a command that you have added. (example: hello | not q!hello) </p>
+                  <hr>
+                  <form class="new-response">
+              			<label class="label">Executor (command)</label>
+              			<p class="control has-addons">
+              				<input class="input" id="addCommandCommand" type="text" value="" maxlength="72">
+              			</p>
+              			<p class="control">
+              				<label class="label">Response</label>
+              				<textarea class="input" id="addCommandResponse"></textarea>
+              			</p>
+              			<p class="control">
+              				<a id="addCommandSubmit" class="btn btn-dark">Add</a>
+              			</p>
+                    <hr>
+                    <br/>
+                    <h1 style="font-size:18px;">Your Commands</h1>
+                    <br/>
+                    <table style="text-align:left;" id="commandTable" class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Command</th>
+                        <th scope="col">Response</th>
+                        <th scope="col">Manage</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% commands.forEach(c => { %>
+                      <tr>
+                        <td><%= c.command %></td>
+                        <td><%= c.response %></td>
+                        <td><a class="btn btn-dark removeCommand" data-id="<%= c.id %>">Delete</a></td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                </form>
+                </div>
+                <!-- End of Custom Commands (auto responders) -->
 
                 <!-- Start -->
                 <div id="start">
@@ -311,7 +360,7 @@
           </div>
           <br/>
           <p class="lead">
-          <a href="" id="mainOpen" class="btn btn-lg btn-secondary">Main</a> <a href="" id="announcementsOpen" class="btn btn-lg btn-secondary">Announcements</a> <a href="" id="loggingOpen" class="btn btn-lg btn-secondary">Logging</a> <a href="" id="customcommandsOpen" class="btn btn-lg btn-secondary">Custom Commands</a>
+          <a href="" id="mainOpen" class="btn btn-lg btn-secondary">Main</a> <a href="" id="announcementsOpen" class="btn btn-lg btn-secondary">Announcements</a> <a href="" id="loggingOpen" class="btn btn-lg btn-secondary">Logging</a> <a href="" id="customcommandsOpen" class="btn btn-lg btn-secondary">Auto Responders</a>
           </p>
         </div><br/><br/>
         <a href="/" class="btn btn btn-secondary">Back</a> <a href="/commands" class="btn btn btn-secondary">Commands</a>
