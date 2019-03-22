@@ -3,7 +3,7 @@ const { RichEmbed } = require('discord.js');
 
 module.exports = async (client, member) => {
 
-    Utils.logCheck(member.guild, 'memberJoins').then(logChannel => {
+    Utils.logCheck(member.guild, 'memberLeaves').then(logChannel => {
         if (!logChannel) return;
 
         logChannel.send(new RichEmbed()

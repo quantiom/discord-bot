@@ -5,7 +5,16 @@ module.exports = async (client, member) => {
 
     member.guild.fetchMember(member, true);
 
-    Utils.logCheck(member.guild, 'memberLeaves').then(logChannel => {
+    Utils.db.all('SELECT * FROM autorole WHERE guildid=? LIMIT 1', [member.guild.id]).then(q => {
+        if (!q || q.length == 0) return;
+        
+        let role = member.guild.roles.get(q[0].roleid);
+        if (!role || role.managed || member.guild.me.highestRole.comparePositionTo(role) < 1 || !member.guild.me.hasPermission(['MANAGE_ROLES'])) return;
+        
+            member.addRole(role, "Auto Role");
+    })
+
+    Utils.logCheck(member.guild, 'memberJoins').then(logChannel => {
         if (!logChannel) return;
 
         logChannel.send(new RichEmbed()
