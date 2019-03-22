@@ -28,7 +28,7 @@ module.exports = class extends Command
                 .setColor(Utils.red)
                 .addField('Usage', command.usage)
                 .addField('Description', command.description)
-            
+
             if (command.aliases.length > 0)
                 commandEmbed.addField('Aliases', command.aliases.map(alias => alias).join(', '));
 

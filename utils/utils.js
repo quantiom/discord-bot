@@ -3,6 +3,7 @@ const { join } = require('path')
 const { RichEmbed, Guild } = require('discord.js');
 const colors = require('colors');
 const sqlite = require('sqlite');
+const rp = require('request-promise');
 
 class Utils
 {
@@ -20,13 +21,21 @@ class Utils
         if (files_or_dir == "files") return readdirSync(dir).filter(f => statSync(join(dir, f)).isFile() && f.endsWith('.js'))
     }
 
-    static errorEmbed(msg)
+    errorEmbed(msg)
     {
         return new RichEmbed()
-            .setTitle('Error')
+            .setAuthor('Error', this.client.user.displayAvatarURL)
             .setDescription(msg)
             .setColor(this.red);
     };
+
+    usageError(cmd)
+    {
+        return new RichEmbed()
+            .setAuthor("Error", this.client.user.displayAvatarURL)
+            .setDescription("Usage: \`"+cmd.usage+"\`")
+            .setColor(this.red);
+    }
 
     embed(title, desc)
     {
@@ -57,6 +66,12 @@ class Utils
         if (!channel.permissionsFor(guild.me).has(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS"])) return false;
 
         return channel;
+    }
+    
+    async request(url, post = false)
+    {
+        if (!post)
+            return (await rp(url));
     }
 
     userFromMention(mention)
