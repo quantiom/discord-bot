@@ -43,7 +43,12 @@ module.exports = class extends Command
                 helpEmbed.addField(`${category} (${commands.length})`, commands.map(cmd => `\`${cmd.name}\``).join('\n'));
             });
 
-            message.channel.send(helpEmbed);
+            try {
+                message.channel.send(Utils.embed("Help", "I've sent you a PM with all the commands."));
+                message.author.send(helpEmbed);
+            } catch (e) {
+                message.channel.send(helpEmbed);
+            }
         }
     }
 }
