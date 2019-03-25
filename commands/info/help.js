@@ -36,7 +36,7 @@ module.exports = class extends Command
         } else {
             let helpEmbed = new RichEmbed()
                 .setAuthor('Help', client.user.displayAvatarURL)
-                .setDescription(`Prefix: \`${config.prefix}\`\nUse \`${config.prefix}help <command name>\` to get information on a certain command.\n\`<>\` = required, and \`||\` = optional.`)
+                .setDescription(`Prefix: \`${config.prefix}\`\nUse \`${config.prefix}help <command name>\` to get information on a certain command.\n\`<>\` = required, and \`||\` = optional.\nYou can also view the commands on our site, and manage your guild [here](http://localhost:3000).`)
                 .setColor(Utils.red);
 
             Handler.categories.forEach((commands, category) => {
