@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <title>quantiom bot</title>
+        <link href="../../bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link href="../../bootstrap/cover.css" rel="stylesheet">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet"/>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <link href="../../css/style.css" rel="stylesheet">
+    
+      <style type="text/css">
+    :root #content > #right > .dose > .dosesingle,
+    :root #content > #center > .dose > .dosesingle
+    { display: none !important; }</style></head>
+  <body>
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="inner cover">
+            <div class="container h-100">
+                <div class="row h-85 justify-content-center align-items-center">
+              <div class="container-fluid" style="margin-top:80px">
+                <!-- Start -->
+                  <h1 style="color:#7289DA"><%= user.username %></h1>
+                  <h2 style="color:#fff">Warnings for <span style="color:#7289DA"><%= guild.name %></span></h2>
+                  <h3><span style="color:<% if (warnings.length == 0) { %>#fff<% } else { %>#f46842<% } %>"><%= warnings.length %></span> <% if (warnings.length == 1) { %>warning<% } else { %>warnings<% } %></h3>
+                <!-- End of Start -->
+              </div>
+              </div>
+          </div>
+          <br/>
+          <table style="text-align:left;" class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">User</th>
+              <th scope="col">Reason</th>
+              <th scope="col">Warned By</th>
+              <th scope="col">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%
+            function timeConverter(UNIX_timestamp){
+              var a = new Date(UNIX_timestamp * 1000);
+              var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+              var year = a.getFullYear();
+              var month = months[a.getMonth()];
+              var date = a.getDate();
+              var hour = a.getHours();
+              var min = a.getMinutes();
+              var sec = a.getSeconds();
+              var time = month + '. ' + date + ', ' + year + ' at ' + hour + ':' + min + ':' + sec ;
+              return time;
+            }
+            warnings.forEach(warning => { %>
+            <tr>
+              <td><%= user.tag %></td>
+              <td><%= warning.reason %></td>
+              <td><%= client.users.get(warning.warned_by).tag %></td>
+              <td><%= timeConverter(warning.time/1000) %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        </div>
+
+      </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../bootstrap/tether.min.js.download" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="../../bootstrap/bootstrap.min.js.download"></script>
+    <script src="../../bootstrap/ie10-viewport-bug-workaround.js.download"></script>
+</body></html>

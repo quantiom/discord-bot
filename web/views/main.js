@@ -29,4 +29,13 @@ module.exports = async (app, client) => {
     app.get('/commands', (req, res) => {
         res.render('pages/commands', {req, client, Handler});
     });
+
+    app.get('/:id/:userid/warnings', async (req, res) => {
+        let user = client.users.get(req.params.userid);
+        let guild = client.guilds.get(req.params.id);
+        if (!user || !guild) return res.redirect('/');
+        
+        let warnings = await app.db.all('SELECT * FROM warnings WHERE guildid=? AND userid=? ORDER BY time DESC', [req.params.id, req.params.userid]);
+        res.render('pages/warnings', {req, client, Handler, user, warnings, guild});
+    })
 }
