@@ -2,5 +2,4 @@
 !package-lock.json
 /node_modules/
 sessions
-/data/
-database.sqlite
+data/database.sqlite
