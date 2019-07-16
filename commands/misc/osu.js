@@ -3,7 +3,7 @@ const { Utils } = require('../../index.js');
 const osu = require('node-osu');
 const { config } = require('../../index.js');
 
-var osuApi = new osu.Api(config.osuApiKey, {
+const osuApi = new osu.Api(config.osuApiKey, {
     completeScores: false,
     notFoundAsError: false
 });
