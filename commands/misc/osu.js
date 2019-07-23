@@ -8,7 +8,7 @@ const osuApi = new osu.Api(config.osuApiKey, {
     notFoundAsError: false
 });
 
-function numberWithCommas(x) {
+const numberWithCommas = (x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
