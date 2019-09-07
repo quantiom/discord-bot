@@ -12,8 +12,8 @@ module.exports = async (app, client) => {
     app.get('/callback', async (req, res) => {
         if (!req.query.code) return res.redirect('/');
         var params = new URLSearchParams();
-        params.append('client_id', '501266577774215168');
-        params.append('client_secret', '7yNLN4NZvD4Vf4jqr6edcK5CQXddQMLi');
+        params.append('client_id', 'xxx');
+        params.append('client_secret', 'xxx');
         params.append('grant_type', 'authorization_code');
         params.append('code', req.query.code);
         params.append('redirect_uri', 'http://localhost:3000/callback');
