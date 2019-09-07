@@ -11,7 +11,8 @@ module.exports = async (app, client) => {
 
     app.get('/callback', async (req, res) => {
         if (!req.query.code) return res.redirect('/');
-        var params = new URLSearchParams();
+	    
+        let params = new URLSearchParams();
         params.append('client_id', 'xxx');
         params.append('client_secret', 'xxx');
         params.append('grant_type', 'authorization_code');
